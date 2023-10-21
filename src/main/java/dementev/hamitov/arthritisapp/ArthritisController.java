@@ -25,7 +25,7 @@ public class ArthritisController {
     @GetMapping(value = "/{patientsNumber}")
     public ResponseEntity<ArthritisCase> getArthritisCases(@PathVariable("hospitalName") String hospitalName,
                                                            @PathVariable("patientsNumber") int patientsNumber) {
-        ArthritisCase arthritisCase = arthritisService.getArthritisCases(hospitalName, patientsNumber);
+        ArthritisCase arthritisCase = arthritisService.getArthritisCase(hospitalName, patientsNumber);
         if (arthritisCase != null) {
             return ResponseEntity.ok(arthritisCase);
         } else {

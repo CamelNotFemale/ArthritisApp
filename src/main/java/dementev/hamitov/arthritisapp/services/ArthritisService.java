@@ -12,6 +12,9 @@ public class ArthritisService {
     private int indexDB = 0;
 
     public int addArthritisCase(String hospitalName, int patientsNumber, ArthritisCase request) {
+        if (checkExistence(hospitalName, patientsNumber)) {
+            return -1;
+        }
         request.setId(indexDB);
         request.setHospitalName(hospitalName);
         request.setPatientsNumber(patientsNumber);
@@ -19,7 +22,16 @@ public class ArthritisService {
         return indexDB++;
     }
 
-    public ArthritisCase getArthritisCases(String hospitalName, int patientsNumber) {
+    private boolean checkExistence(String hospitalName, int patientsNumber) {
+        for (ArthritisCase atrCase: memoryDB) {
+            if (atrCase.getHospitalName().equals(hospitalName) && atrCase.getPatientsNumber() == patientsNumber) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ArthritisCase getArthritisCase(String hospitalName, int patientsNumber) {
         for (ArthritisCase arthritisCase: memoryDB) {
             if (arthritisCase.getHospitalName().equals(hospitalName) && arthritisCase.getPatientsNumber() == patientsNumber) {
                 return arthritisCase;
@@ -29,7 +41,7 @@ public class ArthritisService {
     }
 
     public boolean editArthritisCase(String hospitalName, int patientsNumber, ArthritisCase arthritisCaseUpd) {
-        ArthritisCase arthritisCase = getArthritisCases(hospitalName, patientsNumber);
+        ArthritisCase arthritisCase = getArthritisCase(hospitalName, patientsNumber);
         if (arthritisCase != null) {
             arthritisCase.updateFromOther(arthritisCaseUpd);
             return true;
@@ -39,7 +51,7 @@ public class ArthritisService {
     }
 
     public boolean deleteArthritisCase(String hospitalName, int patientsNumber) {
-        ArthritisCase arthritisCase = getArthritisCases(hospitalName, patientsNumber);
+        ArthritisCase arthritisCase = getArthritisCase(hospitalName, patientsNumber);
         if (arthritisCase != null) {
             return memoryDB.remove(arthritisCase);
         } else {

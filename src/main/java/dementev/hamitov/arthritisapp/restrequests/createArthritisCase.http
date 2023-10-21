@@ -3,5 +3,6 @@ Content-Type: application/json
 
 {
   "illnessDate": "2023-09-23",
-  "arthritisType": "ACUTE"
+  "arthritisType": "ACUTE",
+  "treatment": ["painkillers", "muscle relaxants", "hormonal"]
 }

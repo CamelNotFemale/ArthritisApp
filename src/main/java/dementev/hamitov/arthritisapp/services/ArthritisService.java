@@ -1,25 +1,30 @@
 package dementev.hamitov.arthritisapp.services;
 
 import dementev.hamitov.arthritisapp.models.ArthritisCase;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Service
+@RequiredArgsConstructor
 public class ArthritisService {
     private List<ArthritisCase> memoryDB= new ArrayList<>();
     private int indexDB = 0;
+    private final MessageSource messages;
 
-    public int addArthritisCase(String hospitalName, int patientsNumber, ArthritisCase request) {
+    public String addArthritisCase(String hospitalName, int patientsNumber, ArthritisCase request, Locale locale) {
         if (checkExistence(hospitalName, patientsNumber)) {
-            return -1;
+            return messages.getMessage("athrtitis.create.error.message", null, locale);
         }
         request.setId(indexDB);
         request.setHospitalName(hospitalName);
         request.setPatientsNumber(patientsNumber);
         memoryDB.add(request);
-        return indexDB++;
+        return String.format(messages.getMessage("athrtitis.create.message", null, locale), request);
     }
 
     private boolean checkExistence(String hospitalName, int patientsNumber) {
@@ -40,22 +45,24 @@ public class ArthritisService {
         return null;
     }
 
-    public boolean editArthritisCase(String hospitalName, int patientsNumber, ArthritisCase arthritisCaseUpd) {
+    public String editArthritisCase(String hospitalName, int patientsNumber, ArthritisCase arthritisCaseUpd, Locale locale) {
         ArthritisCase arthritisCase = getArthritisCase(hospitalName, patientsNumber);
         if (arthritisCase != null) {
             arthritisCase.updateFromOther(arthritisCaseUpd);
-            return true;
+            return String.format(messages.getMessage("athrtitis.update.message", null, locale), arthritisCaseUpd);
         } else {
-            return false;
+            return messages.getMessage("athrtitis.get.error.message", null, locale);
         }
     }
 
-    public boolean deleteArthritisCase(String hospitalName, int patientsNumber) {
+    public String deleteArthritisCase(String hospitalName, int patientsNumber, Locale locale) {
         ArthritisCase arthritisCase = getArthritisCase(hospitalName, patientsNumber);
         if (arthritisCase != null) {
-            return memoryDB.remove(arthritisCase);
+            memoryDB.remove(arthritisCase);
+            return String.format(messages.getMessage("athrtitis.delete.message", null, locale),
+                    arthritisCase.getArthritisType().getName(), patientsNumber, hospitalName);
         } else {
-            return false;
+            return messages.getMessage("athrtitis.get.error.message", null, locale);
         }
     }
 }

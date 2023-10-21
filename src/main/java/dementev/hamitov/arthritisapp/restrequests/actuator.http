@@ -1,0 +1,20 @@
+Изучить описания конечных точек (https://docs.spring.io/spring-boot/docs/current/actuator-api/htmlsingle/)
+и вывести следующую информацию через запросы GET:
+___________________________________________________________________________________________________________
+Данные о bean-компонентах приложения:
+GET http://localhost:8080/actuator/beans
+
+Данные об окружении:
+GET http://localhost:8080/actuator/env
+
+Все метрики:
+GET http://localhost:8080/actuator/metrics
+
+Время для запуска приложения:
+GET http://localhost:8080/actuator/metrics/application.started.time
+
+Длительность обработки запроса HTTP-сервером:
+GET http://localhost:8080/actuator/metrics/http.server.requests
+
+Число доступных процессоров для JVM:
+GET http://localhost:8080/actuator/metrics/system.cpu.count

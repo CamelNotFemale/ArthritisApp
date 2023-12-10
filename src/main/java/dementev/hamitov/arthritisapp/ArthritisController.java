@@ -36,7 +36,7 @@ public class ArthritisController {
                                                            @PathVariable("patientsNumber") int patientsNumber,
                                                            @RequestHeader(value = "Accept-Language",required = false)
                                                                Locale locale) {
-        ArthritisCase arthritisCase = arthritisService.getArthritisCase(hospitalName, patientsNumber);
+        ArthritisCase arthritisCase = arthritisService.getArthritisCase(hospitalName, patientsNumber, locale);
         if (arthritisCase != null) {
             arthritisCase.add(linkTo(methodOn(ArthritisController.class)
                             .getArthritisCases(hospitalName, patientsNumber, locale))
